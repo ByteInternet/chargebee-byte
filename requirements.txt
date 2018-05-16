@@ -1,4 +1,4 @@
 -c constraints.txt
 
-nose
+nose2
 requests
