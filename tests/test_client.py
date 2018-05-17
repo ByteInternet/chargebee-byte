@@ -1,11 +1,12 @@
-from unittest.mock import patch
+from __future__ import absolute_import
 
-import requests
 from unittest import TestCase
 from unittest import mock
 
-from client import Client, CHARGEBEE_SUBSCRIPTIONS_URI
-from allowed_parameters import CHARGEBEE_SUBSCRIPTIONS_ALLOWED_PARAMETERS
+import requests
+
+from chargebee_byte.client import Client
+from chargebee_byte.requests.subscription_request import SubscriptionRequest
 
 
 class TestBase(TestCase):
@@ -31,21 +32,21 @@ class TestClient(TestBase):
     def test_sets_api_url_to_provided_site(self):
         self.assertEqual(self.chargebee_client.api_url, 'https://my_site.chargebee.com/api/v2')
 
-    def test_sets_api_key_to_provided_api_key(self):
-        self.assertEqual(self.chargebee_client.api_key, 'my_api_key')
+    def test_sets_auth_to_hhtp_basic_auth_method_with_api_key_as_username(self):
+        self.assertEqual(self.chargebee_client.auth, requests.auth.HTTPBasicAuth('my_api_key', ''))
 
 
 class TestGetSubscriptions(TestBase):
     def setUp(self):
         super(TestGetSubscriptions, self).setUp()
-        self.requests_get = self.set_up_patch('client.requests.get')
+        self.requests_get = self.set_up_patch('chargebee_byte.client.requests.get')
 
     def test_calls_chargebee_api_with_correct_parameters(self):
         self.chargebee_client.get_subscriptions()
 
         self.requests_get.assert_called_once_with(
-            self.chargebee_client.api_url + CHARGEBEE_SUBSCRIPTIONS_URI,
-            auth=requests.auth.HTTPBasicAuth(self.chargebee_client.api_key, ''),
+            self.chargebee_client.api_url + '/subscriptions',
+            auth=self.chargebee_client.auth,
             params={}
         )
 
@@ -58,41 +59,14 @@ class TestGetSubscriptions(TestBase):
         self.chargebee_client.get_subscriptions(parameters={'status[is]': 'active'})
 
         self.requests_get.assert_called_once_with(
-            self.chargebee_client.api_url + CHARGEBEE_SUBSCRIPTIONS_URI,
-            auth=requests.auth.HTTPBasicAuth(self.chargebee_client.api_key, ''),
+            self.chargebee_client.api_url + '/subscriptions',
+            auth=self.chargebee_client.auth,
             params={'status[is]': 'active'}
         )
 
     def test_raises_value_error_if_unknown_parameter_supplied(self):
         parameter = 'banaan[henk]'
-        self.assertNotIn(parameter, CHARGEBEE_SUBSCRIPTIONS_ALLOWED_PARAMETERS)
+        self.assertNotIn(parameter, SubscriptionRequest().allowed_parameters)
 
         with self.assertRaises(ValueError):
             self.chargebee_client.get_subscriptions(parameters={parameter: 'bonobo'})
-
-    @patch('client.Client._check_parameters')
-    def test_calls_check_parameters_for_parameter_checks(self, check_parameters):
-        parameters = {'status[is]': 'active'}
-
-        self.chargebee_client.get_subscriptions(parameters=parameters)
-
-        check_parameters.assert_called_once_with(parameters, CHARGEBEE_SUBSCRIPTIONS_ALLOWED_PARAMETERS)
-
-
-class TestCheckParameters(TestBase):
-    def test_raises_value_error_with_message_specifying_which_parameters_are_wrong_if_invalid_parameters_supplied(self):
-        parameters = {'not_allowed': 'something', 'also_not_allowed': 'something', 'status[is]': 'something'}
-
-        try:
-            self.chargebee_client._check_parameters(parameters, CHARGEBEE_SUBSCRIPTIONS_ALLOWED_PARAMETERS)
-        except ValueError as e:
-            self.assertTrue(str(e).startswith('The following parameters are not allowed: '))
-            self.assertTrue(str(e).endswith(('not_allowed, also_not_allowed', 'also_not_allowed, not_allowed')))
-        else:
-            self.fail('Exception not raised')
-
-    def test_does_not_raise_value_error_if_valid_parameters_supplied(self):
-        parameters = {'status[is]': 'something', 'status[is_not]': 'something'}
-
-        # Should not raise error
-        self.chargebee_client._check_parameters(parameters, CHARGEBEE_SUBSCRIPTIONS_ALLOWED_PARAMETERS)
