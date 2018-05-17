@@ -103,3 +103,6 @@ class TestSubscriptionRequest(TestCase):
         request = SubscriptionRequest(parameters)
 
         self.assertEqual(request.data, parameters)
+
+    def test_sets_data_to_empty_dict_if_no_parameters(self):
+        self.assertEqual(self.request.data, {})
