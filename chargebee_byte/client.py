@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import requests
 
 from chargebee_byte.requests.subscription_request import SubscriptionRequest
