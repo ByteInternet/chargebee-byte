@@ -17,7 +17,8 @@ setuptools.setup(
     author='Byte',
     author_email='tech@byte.nl',
     url='https://github.com/ByteInternet/chargebee-byte',
-    packages=setuptools.find_packages(include=('chargebee_byte', 'chargebee_byte.*')),
+    packages=setuptools.find_packages(include=('chargebee_byte',
+                                               'chargebee_byte.*')),
     install_requires=['requests'],
     classifiers=[
         'Development Status :: 4 - Beta',
