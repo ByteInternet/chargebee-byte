@@ -80,14 +80,16 @@ class TestSubscriptionRequest(TestCase):
             'updated_at[between]',
         ])
 
-    def test_raises_value_error_with_message_specifying_which_parameters_are_wrong_if_invalid_parameters_supplied(self):
-        parameters = {'not_allowed': 'something', 'also_not_allowed': 'something', 'status[is]': 'something'}
+    def test_raises_value_error_with_message_specifying_invalid_parameters(self):
+        parameters = {'not_allowed': 'something', 'also_not_allowed': 'something',
+                      'status[is]': 'something'}
 
         try:
             SubscriptionRequest(parameters)
         except ValueError as e:
             self.assertTrue(str(e).startswith('The following parameters are not allowed: '))
-            self.assertTrue(str(e).endswith(('not_allowed, also_not_allowed', 'also_not_allowed, not_allowed')))
+            self.assertTrue(str(e).endswith(('not_allowed, also_not_allowed',
+                                             'also_not_allowed, not_allowed')))
         else:
             self.fail('Exception not raised')
 

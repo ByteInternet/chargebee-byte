@@ -1,0 +1,4 @@
+--editable .
+nose2
+pylint
+pycodestyle

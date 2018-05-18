@@ -1,5 +1,7 @@
 def generate_parameters(parameters, operators):
-    return ['{}[{}]'.format(parameter, operator) for parameter in parameters for operator in operators]
+    return ['{}[{}]'.format(parameter, operator)
+            for parameter in parameters
+            for operator in operators]
 
 
 def generate_sorting_parameters(parameters):

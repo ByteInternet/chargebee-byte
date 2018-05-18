@@ -1,7 +1,8 @@
 from unittest import TestCase
 
-from chargebee_byte.parameters import generate_parameters, generate_sorting_parameters, generate_date_parameters, \
-    generate_equals_parameters, generate_collection_parameters, generate_comparison_parameters
+from chargebee_byte.parameters import generate_parameters, generate_sorting_parameters,\
+    generate_date_parameters, generate_equals_parameters, generate_collection_parameters, \
+    generate_comparison_parameters
 
 
 class TestGenerateParameters(TestCase):
@@ -9,8 +10,10 @@ class TestGenerateParameters(TestCase):
         ret = generate_parameters(['status', 'cancel_reason'], ['is', 'is_not', 'in', 'not_in'])
 
         self.assertCountEqual(ret, [
-            'status[is]', 'status[is_not]', 'status[in]', 'status[not_in]',
-            'cancel_reason[is]', 'cancel_reason[is_not]', 'cancel_reason[in]', 'cancel_reason[not_in]',
+            'status[is]', 'status[is_not]',
+            'status[in]', 'status[not_in]',
+            'cancel_reason[is]', 'cancel_reason[is_not]',
+            'cancel_reason[in]', 'cancel_reason[not_in]',
         ])
 
 
@@ -29,8 +32,10 @@ class TestGenerateDateParameters(TestCase):
         ret = generate_date_parameters(['created_at', 'activated_at'])
 
         self.assertCountEqual(ret, [
-            'created_at[after]', 'created_at[before]', 'created_at[on]', 'created_at[between]',
-            'activated_at[after]', 'activated_at[before]', 'activated_at[on]', 'activated_at[between]'
+            'created_at[after]', 'created_at[before]',
+            'created_at[on]', 'created_at[between]',
+            'activated_at[after]', 'activated_at[before]',
+            'activated_at[on]', 'activated_at[between]'
         ])
 
 
@@ -59,6 +64,8 @@ class TestGenerateComparisonParameters(TestCase):
         ret = generate_comparison_parameters(['remaining_bonobos', 'remaining_bananas'])
 
         self.assertCountEqual(ret, [
-            'remaining_bonobos[lt]', 'remaining_bonobos[lte]', 'remaining_bonobos[gt]', 'remaining_bonobos[gte]',
-            'remaining_bananas[lt]', 'remaining_bananas[lte]', 'remaining_bananas[gt]', 'remaining_bananas[gte]',
+            'remaining_bonobos[lt]', 'remaining_bonobos[lte]',
+            'remaining_bonobos[gt]', 'remaining_bonobos[gte]',
+            'remaining_bananas[lt]', 'remaining_bananas[lte]',
+            'remaining_bananas[gt]', 'remaining_bananas[gte]',
         ])
