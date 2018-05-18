@@ -1,0 +1,22 @@
+branches:
+  only:
+    - master
+
+language: python
+
+python:
+  - '3.4'
+  - '3.5'
+  - '3.6'
+
+install:
+  - pip install -r dev-requirements.txt
+
+script:
+  - nose2
+  - pylint -E chargebee_byte
+  - pycodestyle setup.py chargebee_byte
+
+sudo: false
+
+cache: pip
