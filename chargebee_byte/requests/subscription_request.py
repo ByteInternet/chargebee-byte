@@ -26,9 +26,6 @@ class SubscriptionRequest(object):
         return ['limit', 'offset', 'include_deleted'] + params
 
     def _check_parameters(self, parameters):
-        parameter_keys = set(parameters.keys())
-        correct_parameters = parameter_keys.intersection(self.allowed_parameters)
-        incorrect_parameters = parameter_keys.symmetric_difference(correct_parameters)
-
+        incorrect_parameters = set(parameters.keys()) - set(self.allowed_parameters)
         if incorrect_parameters:
             raise ValueError('The following parameters are not allowed: {}'.format(', '.join(incorrect_parameters)))
