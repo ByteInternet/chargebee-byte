@@ -13,19 +13,17 @@ class SubscriptionRequest(object):
         self.data = parameters
 
     def _generate_allowed_parameters(self):
-        sorting_params = generate_sorting_parameters(['sort_by'])
-        equals_params = generate_equals_parameters(['status', 'cancel_reason', 'id', 'customer_id', 'plan_id', 'remaining_billing_cycles'])
-        collection_params = generate_collection_parameters(['status', 'cancel_reason', 'id', 'customer_id', 'plan_id'])
-        comparison_params = generate_comparison_parameters(['remaining_billing_cycles'])
-        date_params = generate_date_parameters(['created_at', 'activated_at', 'next_billing_at', 'cancelled_at', 'updated_at'])
+        params = generate_sorting_parameters(['sort_by'])
+        params += generate_equals_parameters(['status', 'cancel_reason', 'id', 'customer_id', 'plan_id', 'remaining_billing_cycles'])
+        params += generate_collection_parameters(['status', 'cancel_reason', 'id', 'customer_id', 'plan_id'])
+        params += generate_comparison_parameters(['remaining_billing_cycles'])
+        params += generate_date_parameters(['created_at', 'activated_at', 'next_billing_at', 'cancelled_at', 'updated_at'])
+        params += generate_parameters(['has_scheduled_changes'], ['is'])
+        params += generate_parameters(['remaining_billing_cycles'], ['between'])
+        params += generate_parameters(['remaining_billing_cycles', 'activated_at', 'cancel_reason'], ['is_present'])
+        params += generate_parameters(['id', 'customer_id', 'plan_id'], ['starts_with'])
 
-        custom_params = generate_parameters(['has_scheduled_changes'], ['is'])
-        custom_params += generate_parameters(['remaining_billing_cycles'], ['between'])
-        custom_params += generate_parameters(['remaining_billing_cycles', 'activated_at', 'cancel_reason'], ['is_present'])
-        custom_params += generate_parameters(['id', 'customer_id', 'plan_id'], ['starts_with'])
-
-        return ['limit', 'offset', 'include_deleted'] + sorting_params + equals_params + collection_params + \
-            comparison_params + date_params + custom_params
+        return ['limit', 'offset', 'include_deleted'] + params
 
     def _check_parameters(self, parameters):
         parameter_keys = set(parameters.keys())
