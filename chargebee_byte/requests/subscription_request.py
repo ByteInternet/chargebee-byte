@@ -1,4 +1,4 @@
-from parameters import generate_sorting_parameters, generate_equals_parameters, generate_comparison_parameters, \
+from chargebee_byte.parameters import generate_sorting_parameters, generate_equals_parameters, generate_comparison_parameters, \
     generate_collection_parameters, generate_date_parameters, generate_parameters
 
 

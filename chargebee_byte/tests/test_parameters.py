@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from parameters import generate_parameters, generate_sorting_parameters, generate_date_parameters, \
+from chargebee_byte.parameters import generate_parameters, generate_sorting_parameters, generate_date_parameters, \
     generate_equals_parameters, generate_collection_parameters, generate_comparison_parameters
 
 
