@@ -10,5 +10,6 @@ class Client(object):
 
     def get_subscriptions(self, parameters=None):
         request = SubscriptionRequest(parameters)
-        ret = requests.get(self.api_url + request.path, auth=self.auth, params=request.data)
-        return ret.json()
+        response = requests.get(self.api_url + request.path, auth=self.auth, params=request.data)
+        response.raise_for_status()
+        return response.json()

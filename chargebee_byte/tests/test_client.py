@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from unittest import TestCase
 from unittest import mock
+from unittest.mock import Mock
 
 import requests
 
@@ -70,3 +71,11 @@ class TestGetSubscriptions(TestBase):
 
         with self.assertRaises(ValueError):
             self.chargebee_client.get_subscriptions(parameters={parameter: 'bonobo'})
+
+    def test_calls_raise_for_status_on_requests_response(self):
+        response = Mock()
+        self.requests_get.return_value = response
+
+        self.chargebee_client.get_subscriptions()
+
+        response.raise_for_status.assert_called_once_with()
