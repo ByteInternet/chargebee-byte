@@ -7,7 +7,7 @@ from unittest.mock import Mock
 import requests
 
 from chargebee_byte.client import Client
-from chargebee_byte.requests.subscription_request import SubscriptionRequest
+from chargebee_byte.requests import SubscriptionRequest
 
 
 class TestBase(TestCase):

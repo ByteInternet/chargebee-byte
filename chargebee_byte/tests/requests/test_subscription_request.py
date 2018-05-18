@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from chargebee_byte.requests.subscription_request import SubscriptionRequest
+from chargebee_byte.requests import SubscriptionRequest
 
 
 class TestSubscriptionRequest(TestCase):
