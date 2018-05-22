@@ -33,13 +33,13 @@ class TestClient(TestBase):
         self.assertEqual(self.chargebee_client.auth, requests.auth.HTTPBasicAuth('my_api_key', ''))
 
 
-class TestGetSubscriptions(TestBase):
+class TestGetPaginatedSubscriptions(TestBase):
     def setUp(self):
-        super(TestGetSubscriptions, self).setUp()
+        super(TestGetPaginatedSubscriptions, self).setUp()
         self.requests_get = self.set_up_patch('chargebee_byte.client.requests.get')
 
     def test_calls_chargebee_api_with_correct_parameters(self):
-        self.chargebee_client.get_subscriptions()
+        self.chargebee_client.get_paginated_subscriptions()
 
         self.requests_get.assert_called_once_with(
             self.chargebee_client.api_url + '/subscriptions',
@@ -48,12 +48,12 @@ class TestGetSubscriptions(TestBase):
         )
 
     def test_returns_json_result_from_requests_get_call(self):
-        ret = self.chargebee_client.get_subscriptions()
+        ret = self.chargebee_client.get_paginated_subscriptions()
 
         self.assertEqual(self.requests_get.return_value.json(), ret)
 
     def test_calls_chargebee_api_with_provided_parameters(self):
-        self.chargebee_client.get_subscriptions(parameters={'status[is]': 'active'})
+        self.chargebee_client.get_paginated_subscriptions(parameters={'status[is]': 'active'})
 
         self.requests_get.assert_called_once_with(
             self.chargebee_client.api_url + '/subscriptions',
@@ -66,13 +66,13 @@ class TestGetSubscriptions(TestBase):
         self.assertNotIn(parameter, SubscriptionRequest().allowed_parameters)
 
         with self.assertRaises(ValueError):
-            self.chargebee_client.get_subscriptions(parameters={parameter: 'bonobo'})
+            self.chargebee_client.get_paginated_subscriptions(parameters={parameter: 'bonobo'})
 
     def test_calls_raise_for_status_on_requests_response(self):
         response = mock.Mock()
         self.requests_get.return_value = response
 
-        self.chargebee_client.get_subscriptions()
+        self.chargebee_client.get_paginated_subscriptions()
 
         response.raise_for_status.assert_called_once_with()
 
