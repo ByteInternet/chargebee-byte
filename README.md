@@ -15,5 +15,5 @@ A Python Chargebee API client library. Written by [Byte.nl](https://www.byte.nl)
 ```python
 import chargebee_byte.client
 client = chargebee_byte.client.Client(site_name, api_key)
-subscriptions = client.get_subscriptions()
+subscriptions = client.get_all_subscriptions()
 ```
