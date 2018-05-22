@@ -1,8 +1,4 @@
-from __future__ import absolute_import
-
-from unittest import TestCase
-from unittest import mock
-from unittest.mock import Mock
+from unittest import TestCase, mock
 
 import requests
 
@@ -73,7 +69,7 @@ class TestGetSubscriptions(TestBase):
             self.chargebee_client.get_subscriptions(parameters={parameter: 'bonobo'})
 
     def test_calls_raise_for_status_on_requests_response(self):
-        response = Mock()
+        response = mock.Mock()
         self.requests_get.return_value = response
 
         self.chargebee_client.get_subscriptions()
