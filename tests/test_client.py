@@ -121,7 +121,7 @@ class TestGetAllSubscriptions(TestBase):
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={}
+                params={'offset': ''}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
@@ -181,7 +181,7 @@ class TestGetAllSubscriptions(TestBase):
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={'status[is]': 'active'}
+                params={'status[is]': 'active', 'offset': ''}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',

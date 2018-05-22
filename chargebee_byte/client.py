@@ -16,12 +16,13 @@ class Client(object):
         return response.json()
 
     def get_all_subscriptions(self, parameters=None):
-        ret = self.get_paginated_subscriptions(parameters)
-        subscriptions = ret['list']
+        ret = {'next_offset': ''}
+        subscriptions = []
 
-        if 'next_offset' in ret:
+        while 'next_offset' in ret:
             new_parameters = deepcopy(parameters) or {}
-            new_parameters.update({'offset': ret['next_offset']})
-            subscriptions += self.get_all_subscriptions(new_parameters)
+            new_parameters['offset'] = ret['next_offset']
+            ret = self.get_paginated_subscriptions(new_parameters)
+            subscriptions += ret['list']
 
         return subscriptions
