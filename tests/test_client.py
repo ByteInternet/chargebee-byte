@@ -35,7 +35,7 @@ class TestClient(TestBase):
 
 class TestGetPaginatedSubscriptions(TestBase):
     def setUp(self):
-        super(TestGetPaginatedSubscriptions, self).setUp()
+        super().setUp()
         self.requests_get = self.set_up_patch('chargebee_byte.client.requests.get')
 
     def test_calls_chargebee_api_with_correct_parameters(self):
@@ -79,7 +79,7 @@ class TestGetPaginatedSubscriptions(TestBase):
 
 class TestGetAllSubscriptions(TestBase):
     def setUp(self):
-        super(TestGetAllSubscriptions, self).setUp()
+        super().setUp()
         self.requests_get = self.set_up_patch('chargebee_byte.client.requests.get')
 
         self.response = mock.Mock()
