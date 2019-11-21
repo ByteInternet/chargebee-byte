@@ -1,7 +1,7 @@
 import requests
 from copy import deepcopy
 
-from chargebee_byte.requests import SubscriptionRequest
+from chargebee_byte.requests import SubscriptionRequest, CustomerRequest
 
 
 class Client(object):
@@ -26,3 +26,9 @@ class Client(object):
             subscriptions += ret['list']
 
         return subscriptions
+
+    def get_paginated_customers(self, parameters=None):
+        request = CustomerRequest(parameters)
+        response = requests.get(self.api_url + request.path, auth=self.auth, params=request.data)
+        response.raise_for_status()
+        return response.json()
