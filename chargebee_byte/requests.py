@@ -36,3 +36,33 @@ class SubscriptionRequest(object):
         if incorrect_parameters:
             raise ValueError('The following parameters are not allowed: {}'
                              .format(', '.join(incorrect_parameters)))
+
+
+class CustomerRequest(object):
+    path = '/customers'
+
+    def __init__(self, parameters=None):
+        pass
+        parameters = parameters or {}
+
+        self.allowed_parameters = self._generate_allowed_parameters()
+        self._check_parameters(parameters)
+        self.data = parameters
+
+    def _generate_allowed_parameters(self):
+        params = generate_equals_parameters(['id', 'first_name', 'last_name', 'email', 'company', 'phone',
+                                             'auto_collection', 'taxability'])
+        params += generate_date_parameters(['created_at', 'updated_at'])
+        params += generate_collection_parameters(['id', 'auto_collection', 'taxability'])
+        params += generate_sorting_parameters(['sort_by'])
+        params += generate_parameters(['first_name', 'last_name', 'email', 'company', 'phone'],
+                                      ['is_present', 'starts_with'])
+        params += generate_parameters(['id'], ['starts_with'])
+
+        return ['limit', 'offset', 'include_deleted'] + params
+
+    def _check_parameters(self, parameters):
+        incorrect_parameters = set(parameters.keys()) - set(self.allowed_parameters)
+        if incorrect_parameters:
+            raise ValueError('The following parameters are not allowed: {}'
+                             .format(', '.join(incorrect_parameters)))
