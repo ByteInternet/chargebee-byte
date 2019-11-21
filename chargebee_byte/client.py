@@ -32,3 +32,15 @@ class Client(object):
         response = requests.get(self.api_url + request.path, auth=self.auth, params=request.data)
         response.raise_for_status()
         return response.json()
+
+    def get_all_customers(self, parameters=None):
+        ret = {'next_offset': ''}
+        customers = []
+
+        while 'next_offset' in ret:
+            new_parameters = deepcopy(parameters) or {}
+            new_parameters['offset'] = ret['next_offset']
+            ret = self.get_paginated_customers(new_parameters)
+            customers += ret['list']
+
+        return customers
