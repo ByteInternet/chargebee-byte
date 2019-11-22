@@ -23,17 +23,10 @@ class ChargebeeRequest(object):
                              .format(', '.join(incorrect_parameters)))
 
 
-class SubscriptionRequest(object):
+class SubscriptionRequest(ChargebeeRequest):
     path = '/subscriptions'
 
-    def __init__(self, parameters=None):
-        parameters = parameters or {}
-
-        self.allowed_parameters = self._generate_allowed_parameters()
-        self._check_parameters(parameters)
-        self.data = parameters
-
-    def _generate_allowed_parameters(self):
+    def generate_allowed_parameters(self):
         params = generate_equals_parameters([
             'status', 'cancel_reason', 'id', 'customer_id', 'plan_id', 'remaining_billing_cycles'])
         params += generate_date_parameters([
@@ -51,25 +44,11 @@ class SubscriptionRequest(object):
 
         return ['limit', 'offset', 'include_deleted'] + params
 
-    def _check_parameters(self, parameters):
-        incorrect_parameters = set(parameters.keys()) - set(self.allowed_parameters)
-        if incorrect_parameters:
-            raise ValueError('The following parameters are not allowed: {}'
-                             .format(', '.join(incorrect_parameters)))
 
-
-class CustomerRequest(object):
+class CustomerRequest(ChargebeeRequest):
     path = '/customers'
 
-    def __init__(self, parameters=None):
-        pass
-        parameters = parameters or {}
-
-        self.allowed_parameters = self._generate_allowed_parameters()
-        self._check_parameters(parameters)
-        self.data = parameters
-
-    def _generate_allowed_parameters(self):
+    def generate_allowed_parameters(self):
         params = generate_equals_parameters(['id', 'first_name', 'last_name', 'email', 'company', 'phone',
                                              'auto_collection', 'taxability'])
         params += generate_date_parameters(['created_at', 'updated_at'])
@@ -80,9 +59,3 @@ class CustomerRequest(object):
         params += generate_parameters(['id'], ['starts_with'])
 
         return ['limit', 'offset', 'include_deleted'] + params
-
-    def _check_parameters(self, parameters):
-        incorrect_parameters = set(parameters.keys()) - set(self.allowed_parameters)
-        if incorrect_parameters:
-            raise ValueError('The following parameters are not allowed: {}'
-                             .format(', '.join(incorrect_parameters)))
