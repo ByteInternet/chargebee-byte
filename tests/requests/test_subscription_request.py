@@ -1,11 +1,14 @@
 from unittest import TestCase
 
-from chargebee_byte.requests import SubscriptionRequest
+from chargebee_byte.requests import SubscriptionRequest, ChargebeeRequest
 
 
 class TestSubscriptionRequest(TestCase):
     def setUp(self):
         self.request = SubscriptionRequest()
+
+    def test_inherits_from_chargebee_request(self):
+        self.assertIsInstance(self.request, ChargebeeRequest)
 
     def test_path_is_set_to_subscriptions(self):
         self.assertEqual(self.request.path, '/subscriptions')
@@ -79,32 +82,3 @@ class TestSubscriptionRequest(TestCase):
             'updated_at[on]',
             'updated_at[between]',
         ])
-
-    def test_raises_value_error_with_message_specifying_invalid_parameters(self):
-        parameters = {'not_allowed': 'something', 'also_not_allowed': 'something',
-                      'status[is]': 'something'}
-
-        try:
-            SubscriptionRequest(parameters)
-        except ValueError as e:
-            self.assertTrue(str(e).startswith('The following parameters are not allowed: '))
-            self.assertTrue(str(e).endswith(('not_allowed, also_not_allowed',
-                                             'also_not_allowed, not_allowed')))
-        else:
-            self.fail('Exception not raised')
-
-    def test_does_not_raise_value_error_if_valid_parameters_supplied(self):
-        parameters = {'status[is]': 'something', 'status[is_not]': 'something'}
-
-        # Should not raise error
-        SubscriptionRequest(parameters)
-
-    def test_sets_data_to_parameters(self):
-        parameters = {'status[is]': 'active', 'updated_at[on]': 'something'}
-
-        request = SubscriptionRequest(parameters)
-
-        self.assertEqual(request.data, parameters)
-
-    def test_sets_data_to_empty_dict_if_no_parameters(self):
-        self.assertEqual(self.request.data, {})
