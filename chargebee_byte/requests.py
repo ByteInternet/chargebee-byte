@@ -3,6 +3,26 @@ from chargebee_byte.parameters import generate_sorting_parameters, generate_equa
     generate_parameters
 
 
+class ChargebeeRequest(object):
+    path = None
+
+    def __init__(self, parameters=None):
+        parameters = parameters or {}
+
+        self.allowed_parameters = self.generate_allowed_parameters()
+        self.check_parameters(parameters)
+        self.data = parameters
+
+    def generate_allowed_parameters(self):
+        raise NotImplementedError()
+
+    def check_parameters(self, parameters):
+        incorrect_parameters = set(parameters.keys()) - set(self.allowed_parameters)
+        if incorrect_parameters:
+            raise ValueError('The following parameters are not allowed: {}'
+                             .format(', '.join(incorrect_parameters)))
+
+
 class SubscriptionRequest(object):
     path = '/subscriptions'
 
