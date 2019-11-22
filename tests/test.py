@@ -15,7 +15,7 @@ class TestBase(TestCase):
         :return: mocked object
         """
         if themock is None:
-            themock = mock.Mock(**kwargs)
+            themock = mock.MagicMock(**kwargs)
 
         patcher = mock.patch(topatch, themock)
         self.addCleanup(patcher.stop)
