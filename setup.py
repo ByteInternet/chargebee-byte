@@ -9,7 +9,7 @@ os.chdir(dirname(abspath(__file__)))
 
 setuptools.setup(
     name='chargebee-byte',
-    version='0.1.1',
+    version='0.1.2',
     license='MIT',
     description='Chargebee API library. Made by Byte.nl',
     long_description=open('README.md').read(),
