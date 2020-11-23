@@ -21,7 +21,3 @@ class TestGetPaginatedInvoices(TestBase):
         ret = self.chargebee_client.get_paginated_invoices()
 
         self.assertEqual(ret, self.get_paginated_objects.return_value)
-
-
-
-
