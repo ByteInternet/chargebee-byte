@@ -18,10 +18,10 @@ class TestGetAllCustomers(TestBase):
         self.assertNotIn(parameter, CustomerRequest().allowed_parameters)
 
         with self.assertRaises(ValueError):
-            self.chargebee_client.get_all_subscriptions(parameters={parameter: 'bonobo'})
+            self.chargebee_client.get_all_customers(parameters={parameter: 'bonobo'})
 
     def test_calls_raise_for_status_on_requests_response(self):
-        self.chargebee_client.get_all_subscriptions()
+        self.chargebee_client.get_all_customers()
 
         self.response.raise_for_status.assert_called_once_with()
 
