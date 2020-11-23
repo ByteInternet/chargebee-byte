@@ -82,4 +82,3 @@ class InvoiceRequest(ChargebeeRequest):
                                        'amount_due'], ['between'])
 
         return ['limit', 'offset', 'include_deleted'] + params
-
