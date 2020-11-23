@@ -40,3 +40,6 @@ class Client(object):
 
     def get_paginated_invoices(self, parameters=None):
         return self._get_paginated_objects(InvoiceRequest(parameters))
+
+    def get_all_invoices(self, parameters=None):
+        return self._get_all_objects(self.get_paginated_invoices, parameters)
