@@ -16,3 +16,8 @@ class TestGetPaginatedSubscriptions(TestBase):
         self.chargebee_client.get_paginated_subscriptions()
 
         self.get_paginated_objects.assert_called_once_with(self.subscription_request({}))
+
+    def test_returns_get_paginated_objects_return_value(self):
+        ret = self.chargebee_client.get_paginated_invoices()
+
+        self.assertEqual(ret, self.get_paginated_objects.return_value)
