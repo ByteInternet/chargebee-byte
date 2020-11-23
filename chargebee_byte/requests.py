@@ -59,3 +59,27 @@ class CustomerRequest(ChargebeeRequest):
         params += generate_parameters(['id'], ['starts_with'])
 
         return ['limit', 'offset', 'include_deleted'] + params
+
+
+class InvoiceRequest(ChargebeeRequest):
+    path = '/invoices'
+
+    def generate_allowed_parameters(self):
+        params = generate_sorting_parameters(['sort_by'])
+        params += generate_equals_parameters(['id', 'subscription_id', 'customer_id', 'status', 'price_type', 'total',
+                                              'amount_paid', 'amount_adjusted', 'credits_applied', 'amount_due',
+                                              'dunning_status', 'payment_owner', 'void_reason_code'])
+        params += generate_collection_parameters(['id', 'subscription_id', 'customer_id', 'status', 'price_type',
+                                                  'dunning_status', 'payment_owner', 'void_reason_code'])
+        params += generate_date_parameters(['date', 'paid_at', 'updated_at', 'voided_at'])
+        params += generate_comparison_parameters(['total', 'amount_paid', 'amount_adjusted', 'credits_applied',
+                                                  'amount_due'])
+        params += generate_parameters(['id', 'subscription_id', 'customer_id', 'payment_owner', 'void_reason_code'],
+                                      ['starts_with'])
+        params += generate_parameters(['subscription_id', 'dunning_status'], ['is_present'])
+        params += generate_parameters(['recurring'], ['is'])
+        params += generate_parameters(['total', 'amount_paid', 'amount_adjusted', 'credits_applied',
+                                       'amount_due'], ['between'])
+
+        return ['limit', 'offset', 'include_deleted'] + params
+
