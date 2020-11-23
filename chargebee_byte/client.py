@@ -1,7 +1,7 @@
 import requests
 from copy import deepcopy
 
-from chargebee_byte.requests import SubscriptionRequest, CustomerRequest
+from chargebee_byte.requests import SubscriptionRequest, CustomerRequest, InvoiceRequest
 
 
 class Client(object):
@@ -37,3 +37,6 @@ class Client(object):
 
     def get_all_customers(self, parameters=None):
         return self._get_all_objects(self.get_paginated_customers, parameters)
+
+    def get_paginated_invoices(self, parameters=None):
+        return self._get_paginated_objects(InvoiceRequest(parameters))
