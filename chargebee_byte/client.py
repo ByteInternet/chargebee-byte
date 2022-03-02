@@ -28,6 +28,7 @@ class Client(object):
 
         while 'next_offset' in ret:
             new_parameters = deepcopy(parameters) or {}
+            new_parameters['limit'] = 100
             new_parameters['offset'] = ret['next_offset']
             ret = paginated_func(new_parameters)
             objects += ret['list']
