@@ -48,17 +48,17 @@ class TestGetAllSubscriptions(TestBase):
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={'offset': ''}
+                params={'offset': '', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={'offset': '["1522747277000", "1522747277010"]'}
+                params={'offset': '["1522747277000", "1522747277010"]', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={'offset': '["1522747277010", "1522747277020"]'}
+                params={'offset': '["1522747277010", "1522747277020"]', 'limit': 100}
             ),
         ])
 
@@ -108,16 +108,16 @@ class TestGetAllSubscriptions(TestBase):
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={'status[is]': 'active', 'offset': ''}
+                params={'status[is]': 'active', 'offset': '', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={'status[is]': 'active', 'offset': '["1522747277000", "1522747277010"]'}
+                params={'status[is]': 'active', 'offset': '["1522747277000", "1522747277010"]', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/subscriptions',
                 auth=self.chargebee_client.auth,
-                params={'status[is]': 'active', 'offset': '["1522747277010", "1522747277020"]'}
+                params={'status[is]': 'active', 'offset': '["1522747277010", "1522747277020"]', 'limit': 100}
             ),
         ])
