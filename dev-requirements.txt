@@ -2,3 +2,4 @@
 nose2
 pylint
 pycodestyle
+libfaketime==2.0.0

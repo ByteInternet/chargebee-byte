@@ -48,17 +48,17 @@ class TestGetAllCustomers(TestBase):
             mock.call(
                 self.chargebee_client.api_url + '/customers',
                 auth=self.chargebee_client.auth,
-                params={'offset': ''}
+                params={'offset': '', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/customers',
                 auth=self.chargebee_client.auth,
-                params={'offset': '["1522747277000", "1522747277010"]'}
+                params={'offset': '["1522747277000", "1522747277010"]', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/customers',
                 auth=self.chargebee_client.auth,
-                params={'offset': '["1522747277010", "1522747277020"]'}
+                params={'offset': '["1522747277010", "1522747277020"]', 'limit': 100}
             ),
         ])
 
@@ -108,16 +108,16 @@ class TestGetAllCustomers(TestBase):
             mock.call(
                 self.chargebee_client.api_url + '/customers',
                 auth=self.chargebee_client.auth,
-                params={'sort_by[asc]': 'first_name', 'offset': ''}
+                params={'sort_by[asc]': 'first_name', 'offset': '', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/customers',
                 auth=self.chargebee_client.auth,
-                params={'sort_by[asc]': 'first_name', 'offset': '["1522747277000", "1522747277010"]'}
+                params={'sort_by[asc]': 'first_name', 'offset': '["1522747277000", "1522747277010"]', 'limit': 100}
             ),
             mock.call(
                 self.chargebee_client.api_url + '/customers',
                 auth=self.chargebee_client.auth,
-                params={'sort_by[asc]': 'first_name', 'offset': '["1522747277010", "1522747277020"]'}
+                params={'sort_by[asc]': 'first_name', 'offset': '["1522747277010", "1522747277020"]', 'limit': 100}
             ),
         ])

@@ -1,3 +1,6 @@
+import time
+from datetime import datetime, timedelta
+
 import requests
 from copy import deepcopy
 
@@ -5,11 +8,16 @@ from chargebee_byte.requests import SubscriptionRequest, CustomerRequest, Invoic
 
 
 class Client(object):
-    def __init__(self, site, api_key):
+    def __init__(self, site, api_key, rate_limit=None):
         self.auth = requests.auth.HTTPBasicAuth(api_key, '')
         self.api_url = 'https://{}.chargebee.com/api/v2'.format(site)
+        self.rate_limit = rate_limit
+        self.last_request = None
 
     def _get_paginated_objects(self, request):
+        if self.rate_limit and self.last_request and (self.last_request + timedelta(0, self.rate_limit)) > datetime.now():
+            time.sleep(self.rate_limit)
+        self.last_request = datetime.now()
         response = requests.get(self.api_url + request.path, auth=self.auth, params=request.data)
         response.raise_for_status()
         return response.json()
@@ -20,6 +28,7 @@ class Client(object):
 
         while 'next_offset' in ret:
             new_parameters = deepcopy(parameters) or {}
+            new_parameters['limit'] = 100
             new_parameters['offset'] = ret['next_offset']
             ret = paginated_func(new_parameters)
             objects += ret['list']
